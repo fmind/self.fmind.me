@@ -1,4 +1,4 @@
-# fmind.me
+# self.fmind.me
 
 ## Setup
 
