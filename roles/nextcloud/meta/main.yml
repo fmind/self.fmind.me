@@ -1,0 +1,6 @@
+galaxy_info:
+  author: fmind
+  description: setup nextcloud site
+
+dependencies:
+  - {role: aalaesar.install_nextcloud}

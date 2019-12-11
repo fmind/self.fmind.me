@@ -1,0 +1,30 @@
+---
+
+- hosts: self.fmind.me
+  become: true
+
+  vars:
+
+  roles:
+    # SYSTEM{{{
+    - {role: user, tags: ['user', 'system']}
+    - {role: linux, tags: ['linux', 'system']}
+    - {role: backman, tags: ['backman', 'system']}
+    # }}}
+    # SERVICE{{{
+    - {role: ssh, tags: ['ssh', 'service']}
+    - {role: redis, tags: ['redis', 'service']}
+    - {role: nginx, tags: ['nginx', 'service']}
+    - {role: coturn, tags: ['coturn', 'service']}
+    - {role: certbot, tags: ['certbot', 'service']}
+    - {role: prosody, tags: ['prosody', 'service']}
+    - {role: postgres, tags: ['postgres', 'service']}
+    # }}}
+    # WEBSITE{{{
+    - {role: gitea, tags: ['gitea', 'website']}
+    - {role: findex, tags: ['findex', 'website']}
+    - {role: converse, tags: ['converse', 'website']}
+    - {role: mastodon, tags: ['mastodon', 'website']}
+    - {role: collabora, tags: ['collabora', 'website']}
+    - {role: nextcloud, tags: ['nextcloud', 'website']}
+    # }}}

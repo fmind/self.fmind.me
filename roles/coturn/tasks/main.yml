@@ -1,0 +1,21 @@
+---
+
+- name: install package
+  package: name='coturn'
+
+- name: deploy config
+  template: dest='/etc/turnserver.conf' src='templates/turnserver.conf.j2'
+  notify: restart coturn
+
+- name: enable daemon
+  lineinfile: path='/etc/default/coturn' regexp='^#TURNSERVER_ENABLED' line='TURNSERVER_ENABLED=1'
+  notify: restart coturn
+
+- name: allow service
+  ufw: port='{{item}}' rule='allow'
+  with_items:
+    - 5349
+    - 5350
+
+- name: enable service
+  service: name='coturn' state='started' enabled=true

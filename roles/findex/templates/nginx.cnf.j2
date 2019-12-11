@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{me_site}};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    index index.html;
+    root {{findex_dir}};
+    server_name {{me_site}};
+
+    ssl_certificate {{certbot_tls_cert}};
+    ssl_certificate_key {{certbot_tls_cert_key}};
+
+    error_log {{nginx_log_dir}}/{{me_site}}.err warn;
+    access_log {{nginx_log_dir}}/{{me_site}}.log combined;
+}

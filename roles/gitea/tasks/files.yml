@@ -1,0 +1,27 @@
+---
+
+- name: create directory
+  file: path='{{item}}' state='directory' owner='gitea' group='gitea' mode='0750'
+  with_items:
+    - '/home/gitea'
+    - '{{gitea_dir}}/log'
+    - '{{gitea_dir}}/data'
+    - '{{gitea_dir}}/public'
+    - '{{gitea_dir}}/custom'
+    - '{{gitea_dir}}/indexers'
+
+- name: create log
+  file: src='{{gitea_dir}}/log' dest='/var/log/gitea' state='link'
+
+- name: create etc
+  file: path='/etc/gitea' state='directory' owner='root' group='gitea' mode='0750'
+
+- name: disable service
+  service: name='gitea' state='stopped' enabled=true
+
+- name: download binary
+  get_url: url='https://dl.gitea.io/gitea/{{gitea_version}}/gitea-{{gitea_version}}-linux-amd64' dest='/usr/local/bin/gitea' owner='gitea' group='gitea' mode='0750'
+
+- name: deploy config
+  template: dest='/etc/gitea/app.ini' src='templates/app.ini.j2' owner='gitea' group='gitea' mode='0640'
+  notify: restart gitea

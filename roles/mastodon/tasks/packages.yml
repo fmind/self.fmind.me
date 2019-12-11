@@ -1,0 +1,25 @@
+---
+
+- name: install yarn key
+  apt_key: url='https://dl.yarnpkg.com/debian/pubkey.gpg'
+
+- name: install yarn repository
+  apt_repository: repo='deb https://dl.yarnpkg.com/debian/ stable main'
+
+- name: install dependencies
+  package: name='{{item}}'
+  with_items:
+    - build-essential
+    - bundler
+    - ffmpeg
+    - g++
+    - imagemagick
+    - libicu-dev
+    - libidn11-dev
+    - libpq-dev
+    - libprotobuf-dev
+    - nodejs
+    - protobuf-compiler
+    - ruby
+    - yarn
+    - npm

@@ -1,0 +1,37 @@
+---
+
+- name: install package
+  git: repo='https://github.com/tootsuite/mastodon.git' dest='{{mastodon_dir}}' version='{{mastodon_version}}'
+
+- name: deploy config
+  template: dest='{{mastodon_dir}}/.env.production' src='templates/env.production.j2'
+  notify:
+    - restart mastodon web
+    - restart mastodon sidekiq
+    - restart mastodon streaming
+
+- name: setup permissions
+  file: path='{{mastodon_dir}}' state='directory' owner='mastodon' group='www-data' mode='u+rwX,g=X,o-rwx' recurse=true
+
+- name: install yarn packages
+  command: 'yarn install --pure-lockfile'
+  args:
+    chdir: '{{mastodon_dir}}'
+  become_user: 'mastodon'
+
+- name: install ruby packages
+  command: 'bundle install --deployment --without development testgem install bundler'
+  args:
+    chdir: '{{mastodon_dir}}'
+  become_user: 'mastodon'
+
+- name: compile assets
+  command: 'bundle exec rake assets:precompile'
+  environment:
+    RAILS_ENV: 'production'
+  args:
+    chdir: '{{mastodon_dir}}'
+  become_user: 'mastodon'
+
+- name: setup permissions
+  file: path='{{mastodon_dir}}/public' state='directory' owner='mastodon' group='www-data' mode='u+rwX,g+rwX,o-rwx' recurse=true

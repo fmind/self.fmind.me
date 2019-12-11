@@ -1,0 +1,8 @@
+---
+
+- name: deploy config
+  template: dest='/etc/prosody/prosody.cfg.lua' src='templates/prosody.cfg.lua.j2' owner='root' group='prosody' mode='0640'
+  notify: restart prosody
+
+- name: allow certificate
+  user: name='prosody' groups='ssl-cert' append=true

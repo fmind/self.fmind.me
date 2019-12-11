@@ -1,0 +1,28 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>F :: Chat</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" type="image/ico" href="https://{{me_site}}/favicon.png" />
+        <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/{{converse_version}}/css/inverse.min.css" />
+        <script src="https://cdn.conversejs.org/{{converse_version}}/dist/converse.min.js"></script>
+    </head>
+    <body class="reset">
+        <div class="converse-content" style="display:none"></div>
+        <script>
+            converse.initialize({
+                auto_list_rooms: true,
+                allow_registration: false,
+                muc_nickname_from_jid: true,
+                view_mode: 'fullscreen',
+                locked_domain: '{{me_site}}',
+                websocket_url: 'wss://{{me_chat}}/xmpp-websocket/'
+            }).then(function () {
+                setTimeout(function () {
+                    document.querySelector('.converse-content').style = '';
+                }, 1000);
+            });
+        </script>
+    </body>
+</html>

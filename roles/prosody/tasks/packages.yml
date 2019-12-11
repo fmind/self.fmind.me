@@ -1,0 +1,10 @@
+---
+
+- name: install package
+  package: name='prosody'
+
+- name: install modules
+  package: name='prosody-modules'
+
+- name: install postgresql
+  package: name='lua-dbi-postgresql'

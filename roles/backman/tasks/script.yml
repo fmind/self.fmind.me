@@ -1,0 +1,4 @@
+---
+
+- name: deploy script
+  template: dest='/usr/local/bin/backup' src='templates/backup.j2' owner='root' group='root' mode='700'

@@ -1,0 +1,7 @@
+---
+
+- name: deploy service
+  template: dest='/etc/systemd/system/gitea.service' src='templates/gitea.service.j2'
+
+- name: enable service
+  service: name='gitea' state='started' enabled=true

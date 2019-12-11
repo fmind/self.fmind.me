@@ -1,0 +1,6 @@
+galaxy_info:
+  author: fmind
+  description: setup certbot service
+
+dependencies:
+  - {role: geerlingguy.certbot}

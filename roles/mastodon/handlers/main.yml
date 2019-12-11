@@ -1,0 +1,10 @@
+---
+
+- name: restart mastodon web
+  service: name='mastodon-web' state='restarted'
+
+- name: restart mastodon sidekiq
+  service: name='mastodon-sidekiq' state='restarted'
+
+- name: restart mastodon streaming
+  service: name='mastodon-streaming' state='restarted'

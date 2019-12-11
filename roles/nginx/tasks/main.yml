@@ -1,0 +1,21 @@
+---
+
+- name: allow http
+  ufw: port='http' proto='tcp' rule='allow'
+
+- name: allow https
+  ufw: port='https' proto='tcp' rule='allow'
+
+- name: add repository
+  apt_repository: repo="ppa:ondrej/php"
+
+- name: create directory
+  file: path='{{nginx_www}}' state='directory' owner='www-data' group='www-data' mode='u=rwX,g=rwX,o-rwx' recurse=true
+
+- name: deploy default website
+  template: dest='/etc/nginx/sites-available/default' src='templates/nginx.cnf.j2' force=true
+  notify: reload nginx
+
+- name: enable default website
+  file: path='/etc/nginx/sites-enabled/default' src='/etc/nginx/sites-available/default' state='link' force=true
+  notify: reload nginx

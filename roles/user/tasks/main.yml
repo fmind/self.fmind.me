@@ -1,0 +1,18 @@
+---
+
+- name: install packages
+  package: name='{{item}}'
+  with_items:
+    - git
+    - vim
+    - ansible
+    - python3-pip
+    - silversearcher-ag
+
+- name: clone repository
+  git: repo='https://github.com/fmind/dotfiles' dest='~/dotfiles' force=yes
+  notify: install user site
+  become: false
+
+- name: change permissions
+  file: path='/home/{{me_user}}' owner='{{me_user}}' group='{{me_user}}' mode='u=rwX,g-rwx,o-rwx' recurse=true

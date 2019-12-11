@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# BASE
+(sudo -u postgres pg_dumpall -c) | gzip > '/home/backman/base.sql.gz'
+
+# DATA
+tar -czf '/home/backman/data.tar.gz' --exclude 'backman' -C / 'home'
+
+# SITE
+chown -R backman:backman '/home/backman'

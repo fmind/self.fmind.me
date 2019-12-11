@@ -1,0 +1,6 @@
+---
+
+- name: create admin
+  command: '/usr/local/bin/gitea admin create-user --name "{{me_user}}" --password "{{gitea_admin_pass}}" --email "{{me_mail}}" --admin --config "/etc/gitea/app.ini"'
+  become_user: 'gitea'
+  ignore_errors: true

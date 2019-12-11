@@ -1,0 +1,15 @@
+---
+
+- name: create dir
+  file: path='{{converse_dir}}' state='directory' owner='www-data' group='www-data' mode='0750'
+
+- name: deploy index
+  template: dest='{{converse_dir}}/index.html' src='templates/index.html.j2' owner='www-data' group='www-data' mode='0640'
+
+- name: deploy website
+  template: dest='/etc/nginx/sites-available/converse.cnf' src='templates/nginx.cnf.j2'
+  notify: reload nginx
+
+- name: enable website
+  file: path='/etc/nginx/sites-enabled/converse.cnf' src='/etc/nginx/sites-available/converse.cnf' state='link'
+  notify: reload nginx

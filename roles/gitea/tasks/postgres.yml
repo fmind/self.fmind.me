@@ -1,0 +1,9 @@
+---
+
+- name: create datauser
+  postgresql_user: name='gitea' password='{{gitea_database_pass}}' role_attr_flags='CREATEDB' encrypted=true
+  become_user: 'postgres'
+
+- name: create database
+  postgresql_db: name='gitea' owner='gitea'
+  become_user: 'postgres'

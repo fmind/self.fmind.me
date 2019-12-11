@@ -1,0 +1,4 @@
+---
+
+- name: setup crontab
+  cron: name='backup' user='root' hour='3' minute='0' job='/usr/local/bin/backup &>> /var/log/backman.log' cron_file='backup'

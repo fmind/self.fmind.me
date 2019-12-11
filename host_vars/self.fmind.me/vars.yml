@@ -1,0 +1,149 @@
+---
+# ME{{{
+me_user: 'myuser'
+me_site: 'self.fmind.me'
+me_mail: '{{me_user}}@{{me_site}}'
+me_time: 'Europe/Paris'
+me_ipaddr: '127.0.0.1'
+me_git: 'git.{{me_site}}'
+me_chat: 'chat.{{me_site}}'
+me_turn: 'turn.{{me_site}}'
+me_room: 'room.{{me_site}}'
+me_cloud: 'cloud.{{me_site}}'
+me_social: 'social.{{me_site}}'
+me_office: 'office.{{me_site}}'
+# }}}
+# SSH{{{
+network_ipv6_enable: true
+ssh_print_last_log: true
+ssh_max_auth_retries: 10
+sftp_chroot_dir: '/home'
+sftp_group: 'sftponly'
+sftp_enabled: true
+ssh_use_pam: true
+# }}}
+# MAIL{{{
+mail_from: 'agent'
+mail_domain: '{{me_site}}'
+# }}}
+# LINUX{{{
+os_auth_pw_max_age: 99999
+os_security_users_allow: ['{{me_user}}']
+# }}}
+# REDIS{{{
+redis_loglevel: 'warning'
+redis_maxmemory: 134217728  # 128M
+redis_package: 'redis-server'
+# }}}
+# NGINX{{{
+nginx_www: '/var/www'
+nginx_user: 'www-data'
+nginx_group: 'www-data'
+nginx_limit_conn: 'default 1000'
+nginx_client_max_body_size: '100m'
+nginx_large_client_header_buffers: '4 8k'
+nginx_sites: []
+# }}}
+# CERTBOT{{{
+certbot_ssl_group: 'ssl-cert'
+certbot_auto_renew_user: 'root'
+certbot_create_if_missing: true
+certbot_admin_email: '{{me_mail}}'
+certbot_dhparam: '/etc/ssl/dhparam.pem'
+certbot_tls_dir: '/etc/letsencrypt/live/{{me_site}}'
+certbot_tls_cert: '{{certbot_tls_dir}}/fullchain.pem'
+certbot_tls_cert_key: '{{certbot_tls_dir}}/privkey.pem'
+certbot_certs:
+  - domains:
+      - '{{me_site}}'
+      - '{{me_git}}'
+      - '{{me_chat}}'
+      - '{{me_room}}'
+      - '{{me_turn}}'
+      - '{{me_cloud}}'
+      - '{{me_social}}'
+      - '{{me_office}}'
+certbot_create_command: '{{certbot_script}} certonly --standalone --noninteractive --agree-tos --email {{cert_item.email | default(certbot_admin_email)}} -d {{cert_item.domains | join(",")}}'
+certbot_create_standalone_stop_services:
+  - nginx
+# }}}
+# POSTGRES{{{
+postgresql_version: 9.6
+postgresql_admin: 'postgres'
+postgresql_host: 'localhost'
+postgresql_pg_hba_default:
+  - {type: host, database: all, user: all, address: '127.0.0.1/32', method: 'md5', comment: 'IPv4 local connections'}
+  - {type: host, database: all, user: all, address: '::1/128', method: 'md5', comment: 'IPv6 local connections'}
+  - {type: local, database: all, user: '{{ postgresql_admin_user }}', address: '', method: 'peer', comment: 'UNIX local connections'}
+# }}}
+# GITEA{{{
+gitea_redis_db: 1
+gitea_version: '1.5.3'
+gitea_dir: '/var/lib/gitea'
+# }}}
+# FINDEX{{{
+findex_dir: '/var/www/findex/'
+# }}}
+# CONVERSE{{{
+converse_version: 3.3.4
+converse_dir: '{{nginx_www}}/converse'
+# }}}
+# MASTODON{{{
+mastodon_version: 'v2.5.0'
+mastodon_dir: '{{nginx_www}}/mastodon'
+# }}}
+# NEXTCLOUD{{{
+## CFG{{{
+nextcloud_version_major: 13
+nextcloud_data_dir: '/home/nextcloud'
+nextcloud_instance_name: '{{me_cloud}}'
+nextcloud_trusted_domain: ['{{me_cloud}}']
+nextcloud_webroot: '{{nginx_www}}/nextcloud'
+nextcloud_background_cron: false  # cause bug
+nextcloud_apps: {}
+nextcloud_config_settings:
+  - {name: 'overwrite.cli.url', value: 'https://{{me_cloud}}'}
+  - {name: 'memcache.local', value: '\OC\Memcache\Redis'}
+  - {name: 'open_basedir', value: '/dev/urandom'}
+  - {name: 'mail_domain', value: '{{mail_domain}}'}
+  - {name: 'mail_from_address', value: '{{mail_from}}'}
+  - {name: 'mail_smtpauth', value: 1}
+  - {name: 'mail_smtpmode', value: 'smtp'}
+  - {name: 'mail_smtpsecure', value: 'tls'}
+  - {name: 'mail_smtpauthtype', value: 'LOGIN'}
+  - {name: 'mail_smtpport', value: '{{mail_port}}'}
+  - {name: 'mail_smtphost', value: '{{mail_host}}'}
+  - {name: 'mail_smtpname', value: '{{mail_user}}'}
+  - {name: 'mail_smtppassword', value: '{{mail_pass}}'}
+## }}}
+## PHP{{{
+php_ver: '7.1'
+php_dir: '/etc/php/{{php_ver}}'
+php_bin: 'php-fpm{{php_ver}}'
+php_pkg_apcu: 'php-apcu'
+php_pkg_spe: ['php{{php_ver}}-imap', 'php-imagick', 'php{{php_ver}}-xml', 'php{{php_ver}}-zip', 'php{{php_ver}}-mbstring', 'php-redis']
+php_socket: '/run/php/php{{php_ver}}-fpm.sock'
+## }}}
+## WEB{{{
+nextcloud_hsts: true
+nextcloud_websrv: 'nginx'
+nextcloud_websrv_user: '{{nginx_user}}'
+nextcloud_websrv_group: '{{nginx_group}}'
+nextcloud_tls_cert_method: 'installed'
+nextcloud_tls_cert: '{{certbot_tls_cert}}'
+nextcloud_tls_cert_key: '{{certbot_tls_cert_key}}'
+nextcloud_tls_cert_chain: '{{certbot_tls_cert}}'
+## }}}
+## SQL{{{
+nextcloud_db_backend: 'pgsql'
+nextcloud_db_name: 'nextcloud'
+nextcloud_db_admin: 'nextcloud'
+nextcloud_db_host: '{{postgresql_host}}'
+## }}}
+## MEM{{{
+nextcloud_redis_settings:
+  - {name: 'redis port', value: '{{redis_port}}'}
+  - {name: 'redis host', value: '{{redis_bind_interface}}'}
+  - {name: 'memcache.locking', value: '\OC\Memcache\Redis'}
+## }}}
+# }}}

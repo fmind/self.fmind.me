@@ -1,0 +1,6 @@
+galaxy_info:
+  author: fmind
+  description: setup postgres service
+
+dependencies:
+  - {role: ANXS.postgresql}

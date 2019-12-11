@@ -1,0 +1,26 @@
+---
+
+# - name: create mastodon admin
+#   expect:
+#     command: 'bundle exec rake mastodon:add_user'
+#     chdir: '{{mastodon_dir}}'
+#     responses:
+#       E-mail: '{{mastodon_admin_mail}}'
+#       Username: '{{mastodon_admin_user}}'
+#       Role: 'admin'
+#       Proceed: 'y'
+#   environment:
+#     RAILS_ENV: 'production'
+#   register: 'mastodon_admin'
+#   become_user: '{{mastodon_user}}'
+
+# - name: copy mastodon admin
+#   copy: content='{{mastodon_admin.stdout}}' dest='{{me_home}}/.mastodon' mode='600'
+
+# - name: confirm mastodon admin
+#   command: 'bundle exec rake mastodon:confirm_email USER_EMAIL={{mastodon_admin_email}}'
+#   environment:
+#     RAILS_ENV: 'production'
+#   args:
+#     chdir: '{{mastodon_dir}}'
+#   become_user: '{{mastodon_user}}'

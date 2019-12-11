@@ -1,0 +1,15 @@
+---
+
+- name: add groups
+  user: name='{{me_user}}' groups='www-data' append=true
+
+- name: create directory
+  file: path='{{findex_dir}}' state='directory' owner='{{me_user}}' group='www-data' mode='u=rwX,g=rX,o-rwx' recurse=true
+
+- name: deploy website
+  template: dest='/etc/nginx/sites-available/findex.cnf' src='templates/nginx.cnf.j2'
+  notify: reload nginx
+
+- name: enable website
+  file: path='/etc/nginx/sites-enabled/findex.cnf' src='/etc/nginx/sites-available/findex.cnf' state='link'
+  notify: reload nginx

@@ -1,0 +1,7 @@
+---
+
+- name: create group
+  group: name='gitea' system=true
+
+- name: create user
+  user: name='gitea' group='gitea' home='/home/gitea' shell='/bin/bash' system=true

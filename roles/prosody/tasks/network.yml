@@ -1,0 +1,7 @@
+---
+
+- name: allow clients
+  ufw: port='5222' proto='tcp' rule='allow'
+
+- name: allow servers
+  ufw: port='5269' proto='tcp' rule='allow'

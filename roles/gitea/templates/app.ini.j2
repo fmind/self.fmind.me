@@ -1,0 +1,76 @@
+RUN_MODE = prod
+RUN_USER = gitea
+APP_NAME = F :: Code
+
+[repository]
+ROOT = /home/gitea
+
+[ui]
+DEFAULT_THEME = arc-green
+
+[ui.meta]
+AUTHOR = {{me_user}}
+DESCRIPTION = Code Repository of {{me_site}}
+KEYWORDS = fmind,code,git,self-hosted,repository
+
+[server]
+OFFLINE_MODE = true
+LANDING_PAGE = explore
+DOMAIN = {{me_git}}
+HTTP_PORT = 3000
+HTTP_ADDR = localhost
+
+[database]
+SSL_MODE = disable
+DB_TYPE = postgres
+HOST = localhost
+NAME = gitea
+USER = gitea
+PASSWD = {{gitea_database_pass}}
+
+[mailer]
+ENABLED = true
+SEND_AS_PLAIN_TEXT = true
+HOST = {{mail_host}}:{{mail_port}}
+FROM = {{mail_from}}@{{mail_domain}}
+USER = {{mail_user}}
+PASSWD = `{{mail_pass}}`
+
+[security]
+INSTALL_LOCK = true
+SECRET_KEY = {{gitea_secret}}
+INTERNAL_TOKEN = {{gitea_token}}
+
+[service]
+ENABLE_NOTIFY_MAIL = true
+DISABLE_REGISTRATION = true
+
+[cache]
+ADAPTER = redis
+HOST = network=tcp,addr=:{{redis_port}},db={{gitea_redis_db}},pool_size=100,idle_timeout=180
+
+[session]
+PROVIDER = memory
+SESSION_LIFE_TIME = 864000
+
+[attachment]
+MAX_SIZE = 20
+
+[time]
+FORMAT = RFC3339
+
+[log]
+MODE = file
+LEVEL = Warn
+ROOT_PATH = {{gitea_dir}}/log
+
+[i18n]
+LANGS = en-US
+NAMES = English
+
+[i18n.datelang]
+en-US = en
+
+[other]
+SHOW_FOOTER_VERSION = false
+SHOW_FOOTER_TEMPLATE_LOAD_TIME = false

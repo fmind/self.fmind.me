@@ -1,0 +1,4 @@
+---
+
+- name: restart collabora
+  service: name='loolwsd' state='restarted'

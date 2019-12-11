@@ -1,0 +1,19 @@
+---
+
+- name: deploy web service
+  template: dest='/etc/systemd/system/mastodon-web.service' src='templates/mastodon-web.service.j2'
+
+- name: enable web service
+  service: name='mastodon-web' state='started' enabled=true
+
+- name: deploy sidekiq service
+  template: dest='/etc/systemd/system/mastodon-sidekiq.service' src='templates/mastodon-sidekiq.service.j2'
+
+- name: enable sidekiq service
+  service: name='mastodon-sidekiq' state='started' enabled=true
+
+- name: deploy streaming service
+  template: dest='/etc/systemd/system/mastodon-streaming.service' src='templates/mastodon-streaming.service.j2'
+
+- name: enable streaming service
+  service: name='mastodon-streaming' state='started' enabled=true

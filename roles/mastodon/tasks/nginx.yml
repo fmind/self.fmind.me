@@ -1,0 +1,9 @@
+---
+
+- name: deploy website
+  template: dest='/etc/nginx/sites-available/mastodon.cnf' src='templates/nginx.cnf.j2'
+  notify: reload nginx
+
+- name: enable website
+  file: path='/etc/nginx/sites-enabled/mastodon.cnf' src='/etc/nginx/sites-available/mastodon.cnf' state='link'
+  notify: reload nginx

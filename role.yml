@@ -1,0 +1,9 @@
+- src: jdauphant.nginx
+- src: ANXS.postgresql
+- src: geerlingguy.redis
+- src: geerlingguy.certbot
+- src: dev-sec.os-hardening
+- src: dev-sec.ssh-hardening
+- src: dev-sec.nginx-hardening
+- src: jnv.unattended-upgrades
+- src: aalaesar.install_nextcloud

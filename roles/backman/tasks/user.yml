@@ -1,0 +1,16 @@
+---
+
+- name: create group
+  group: name='backman' system=true
+
+- name: create user
+  user: name='backman' group='backman' groups='sftponly' home='/home/backman' shell='/usr/sbin/nologin' system=true
+
+- name: create home
+  file: path='{{item}}' state='directory' owner='backman' group='backman' mode='700'
+  with_items:
+    - '/home/backman'
+    - '/home/backman/.ssh'
+
+- name: deploy keys
+  copy: src='files/id_rsa.pub' dest='/home/backman/.ssh/authorized_keys' owner='backman' group='backman' mode='600'

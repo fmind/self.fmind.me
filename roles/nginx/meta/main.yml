@@ -1,0 +1,7 @@
+galaxy_info:
+  author: fmind
+  description: setup nginx service
+
+dependencies:
+  - {role: jdauphant.nginx}
+  - {role: dev-sec.nginx-hardening}

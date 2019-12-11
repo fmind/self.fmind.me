@@ -1,0 +1,5 @@
+---
+
+- name: install user site
+  command: 'ansible-playbook ~/dotfiles/site.yml --tag usr'
+  become: false

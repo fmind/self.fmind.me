@@ -1,0 +1,10 @@
+---
+
+- name: allow service
+  ufw: port='ssh' rule='allow'
+
+- name: create group
+  group: name='sftponly' system=true
+
+- name: enable service
+  service: name='ssh' state='started' enabled=true

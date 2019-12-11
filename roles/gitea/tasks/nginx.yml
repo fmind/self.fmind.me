@@ -1,0 +1,9 @@
+---
+
+- name: deploy website
+  template: dest='/etc/nginx/sites-available/gitea.cnf' src='templates/nginx.cnf.j2'
+  notify: reload nginx
+
+- name: enable website
+  file: path='/etc/nginx/sites-enabled/gitea.cnf' src='/etc/nginx/sites-available/gitea.cnf' state='link'
+  notify: reload nginx

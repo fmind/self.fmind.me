@@ -1,0 +1,10 @@
+---
+
+- name: create user
+  user: name='nextcloud' group='www-data' home='{{nextcloud_data_dir}}' shell='/usr/sbin/nologin' system=true
+
+- name: create data
+  file: path='{{nextcloud_data_dir}}' state='directory' owner='nextcloud' group='www-data' mode='u+rwX,g+rwX,o-rwx' recurse=true
+
+- name: setup cron
+  cron: name='nextcloud' user='www-data' minute='*/15' job='php {{nextcloud_webroot}}/cron.php' cron_file='nextcloud'

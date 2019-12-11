@@ -1,0 +1,9 @@
+---
+
+- include_tasks: users.yml
+- include_tasks: packages.yml
+- include_tasks: files.yml
+- include_tasks: postgres.yml
+- include_tasks: service.yml
+- include_tasks: nginx.yml
+- include_tasks: admin.yml

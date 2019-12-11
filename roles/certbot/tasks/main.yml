@@ -1,0 +1,7 @@
+---
+
+- name: create group
+  group: name='ssl-cert' system=true
+
+- name: grant permission
+  file: path='/etc/letsencrypt' group='ssl-cert' recurse=yes mode='u=rwX,g=rX,o-rwx'

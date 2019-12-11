@@ -1,0 +1,4 @@
+---
+
+- name: create admin
+  command: 'prosodyctl register "{{me_user}}" "{{me_site}}" "{{prosody_admin_pass}}"'

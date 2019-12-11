@@ -1,0 +1,13 @@
+---
+
+- name: disable root user
+  user: name='root' shell='/sbin/nologin'
+
+- name: delete ubuntu user
+  user: name='ubuntu' state='absent'
+
+- name: delete ubuntu home
+  file: name='/home/ubuntu' state='absent'
+
+- name: enable firewall
+  ufw: state='enabled' policy='deny'

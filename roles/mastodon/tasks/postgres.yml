@@ -1,0 +1,28 @@
+---
+
+- name: create datauser
+  postgresql_user: name='mastodon' password='{{mastodon_database_pass}}' role_attr_flags='CREATEDB' encrypted=true
+  become_user: 'postgres'
+
+# required by setup mastodon
+- name: allow database
+  postgresql_privs: db='postgres' privs='CONNECT' roles='mastodon' type='database'
+  become_user: 'postgres'
+
+- name: create database
+  command: 'bundle exec rake db:setup'
+  environment:
+    SAFETY_ASSURED: 1
+    RAILS_ENV: 'production'
+  args:
+    chdir: '{{mastodon_dir}}'
+  become_user: 'mastodon'
+  ignore_errors: true
+
+- name: migrate schema
+  command: 'bundle exec rake db:migrate'
+  environment:
+    RAILS_ENV: 'production'
+  args:
+    chdir: '{{mastodon_dir}}'
+  become_user: 'mastodon'
